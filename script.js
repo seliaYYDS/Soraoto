@@ -9,6 +9,37 @@ function updateTime() {
 }
 setInterval(updateTime, 1000);
 updateTime();
+// 页面加载时保存原始标题
+var slogan;
+var xml = new XMLHttpRequest();
+xml.open("GET","https://v1.hitokoto.cn");
+xml.send(null);
+xml.onload = function(){
+    //console.log(this.status)
+    var data = JSON.parse(xml.responseText);
+    slogan = data.hitokoto;
+    onsole.log(slogan)
+    xml.onerror = function(error){
+        //console.log(error)
+    }
+}
+const originalTitle = slogan;
+
+// 监听页面获得焦点事件
+window.addEventListener('focus', () => {
+    document.title = slogan;
+});
+
+// 监听页面失去焦点事件
+window.addEventListener('blur', () => {
+    document.title = 'SORAOTO';
+});
+
+// 页面卸载时恢复原始标题
+window.addEventListener('unload', () => {
+    document.title = originalTitle;
+});
+
 
 // 主题切换功能
 const themeToggle = document.querySelector('.theme-toggle');
