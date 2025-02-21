@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>起始页</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="light-theme">
+    <div class="container">
+        <!-- 主题切换按钮 -->
+        <div class="theme-toggle">
+            <i class="fas fa-moon" id="theme-icon"></i>
+        </div>
+
+        <!-- 时间显示 -->
+        <div class="time-display" id="time"></div>
+
+        <!-- 搜索框 -->
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="搜索..." autocomplete="off">
+                <button id="search-button">搜索</button>
+            </div>
+            <div class="engine-selector">
+                <div class="selected-engine" id="selected-engine">
+                    <img src="https://www.baidu.com/favicon.ico" alt="百度" class="engine-icon">
+                    <span>百度</span>
+                </div>
+                <div class="engine-options" id="engine-options">
+                    <div class="engine-option" data-engine="https://www.baidu.com/s?wd=">
+                        <img src="https://www.baidu.com/favicon.ico" alt="百度" class="engine-icon">
+                        <span>百度</span>
+                    </div>
+                    <div class="engine-option" data-engine="https://www.google.com/search?q=">
+                        <img src="https://www.google.com/favicon.ico" alt="Google" class="engine-icon">
+                        <span>Google</span>
+                    </div>
+                    <div class="engine-option" data-engine="https://www.bing.com/search?q=">
+                        <img src="https://www.bing.com/favicon.ico" alt="Bing" class="engine-icon">
+                        <span>Bing</span>
+                    </div>
+                    <div class="engine-option" id="add-engine">+</div>
+                    <div class="engine-option" id="manage-engines">管理</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 搜索建议 -->
+        <div class="suggestions" id="suggestions"></div>
+
+        <!-- 设置按钮 -->
+        <div class="settings-toggle" id="settings-toggle">
+            <i class="fas fa-cog"></i>
+        </div>
+
+        <!-- 设置界面 -->
+        <div class="settings-overlay" id="settings-overlay">
+            <div class="settings-container">
+                <!-- 设置选项卡 -->
+                <div class="settings-tabs">
+                    <div class="tab active" data-tab="background">背景设置</div>
+                    <div class="tab" data-tab="theme">主题设置</div>
+                    <div class="tab" data-tab="search">搜索设置</div>
+                    <div class="tab" data-tab="custom-themes">自定义主题</div>
+                </div>
+
+                <!-- 背景设置 -->
+                <div class="settings-content active" data-tab="background">
+                    <h3>背景设置</h3>
+                    <div class="background-type">
+                        <label>
+                            <input type="radio" name="background-type" value="solid" checked> 纯色背景
+                        </label>
+                        <label>
+                            <input type="radio" name="background-type" value="gradient"> 渐变背景
+                        </label>
+                        <label>
+                            <input type="radio" name="background-type" value="custom"> 自定义背景
+                        </label>
+                    </div>
+
+                    <!-- 纯色背景设置 -->
+                    <div class="background-option" id="solid-background">
+                        <label for="solid-color">选择颜色：</label>
+                        <input type="color" id="solid-color" value="#1e3c72">
+                    </div>
+
+                    <!-- 渐变背景设置 -->
+                    <div class="background-option" id="gradient-background">
+                        <label for="gradient-color-1">颜色 1：</label>
+                        <input type="color" id="gradient-color-1" value="#1e3c72">
+                        <label for="gradient-color-2">颜色 2：</label>
+                        <input type="color" id="gradient-color-2" value="#2a5298">
+                    </div>
+
+                    <!-- 自定义背景设置 -->
+                    <div class="background-option" id="custom-background">
+                        <label for="custom-image">上传背景图片：</label>
+                        <input type="file" id="custom-image" accept="image/*">
+                        <label for="blur-intensity">背景模糊：</label>
+                        <input type="range" id="blur-intensity" min="0" max="10" value="0">
+                        <label for="darken-intensity">背景深化：</label>
+                        <input type="range" id="darken-intensity" min="0" max="1" step="0.1" value="0">
+                    </div>
+                </div>
+
+                <!-- 主题设置 -->
+                <div class="settings-content" data-tab="theme">
+                    <h3>主题设置</h3>
+                    <label>
+                        <input type="checkbox" id="auto-theme"> 自动切换主题（根据系统设置）
+                    </label>
+                </div>
+
+                <!-- 搜索设置 -->
+                <div class="settings-content" data-tab="search">
+                    <h3>搜索设置</h3>
+                    <label>
+                        <input type="checkbox" id="search-suggestions" checked> 启用搜索建议
+                    </label>
+                </div>
+
+                <!-- 自定义主题 -->
+                <div class="settings-content" data-tab="custom-themes">
+                    <h3>自定义主题</h3>
+                    <div class="custom-themes-list" id="custom-themes-list">
+                        <!-- 自定义主题列表 -->
+                    </div>
+                    <button id="add-theme">添加新主题</button>
+                </div>
+
+                <!-- 关闭设置按钮 -->
+                <button class="close-settings" id="close-settings">关闭</button>
+            </div>
+        </div>
+
+        <!-- 添加引擎弹出框 -->
+        <div class="custom-engine-popup" id="custom-engine-popup">
+            <div class="custom-engine-box">
+                <h3>添加搜索引擎</h3>
+                <input type="text" id="engine-name-input" placeholder="引擎名称">
+                <input type="text" id="engine-url-input" placeholder="引擎URL（用{query}代替搜索词）">
+                <div class="button-container">
+                    <button id="cancel-engine-button">取消</button>
+                    <button id="confirm-engine-button">添加</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 管理引擎弹出框 -->
+        <div class="manage-engines-popup" id="manage-engines-popup">
+            <div class="manage-engines-box">
+                <h3>管理搜索引擎</h3>
+                <div id="engine-list"></div>
+                <div class="button-container">
+                    <button id="close-manage-button">关闭</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 编辑引擎弹出框 -->
+        <div class="edit-engine-popup" id="edit-engine-popup">
+            <div class="edit-engine-box">
+                <h3>编辑搜索引擎</h3>
+                <input type="text" id="edit-engine-name-input" placeholder="引擎名称">
+                <input type="text" id="edit-engine-url-input" placeholder="引擎URL（用{query}代替搜索词）">
+                <div class="button-container">
+                    <button id="cancel-edit-button">取消</button>
+                    <button id="confirm-edit-button">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
